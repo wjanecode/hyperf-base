@@ -28,19 +28,19 @@ class ErrorCode extends AbstractConstants
     const DB_ERROR = 9998;
 
     /**
-     * @Message("ZGW request body error!")
+     * @Message("WGW request body error!")
      */
-    const ZGW_REQUEST_BODY_ERROR = 9997;
+    const WGW_REQUEST_BODY_ERROR = 9997;
 
     /**
-     * @Message("ZGW request auth appId not exist!")
+     * @Message("WGW request auth appId not exist!")
      */
-    const ZGW_AUTH_APP_ID_NOT_EXIST = 9996;
+    const WGW_AUTH_APP_ID_NOT_EXIST = 9996;
 
     /**
-     * @Message("ZGW request auth signature error!")
+     * @Message("WGW request auth signature error!")
      */
-    const ZGW_AUTH_SIGNATURE_ERROR = 9995;
+    const WGW_AUTH_SIGNATURE_ERROR = 9995;
 
     /**
      * @Message("Request rate reach limit!")

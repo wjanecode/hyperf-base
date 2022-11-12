@@ -23,7 +23,8 @@
     "phpmailer/phpmailer": "^6.6",
     "gregwar/captcha": "^1.1",
     "hyperf/async-queue": "^2.2",
-    "hyperf/filesystem": "^2.2"
+    "hyperf/filesystem": "^2.2",
+    "overtrue/flysystem-qiniu": "^2"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5.0",
