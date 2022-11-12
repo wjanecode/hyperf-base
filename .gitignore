@@ -1,0 +1,14 @@
+.buildpath
+.settings/
+.project
+*.patch
+.idea/
+.git/
+.phpintel/
+.env
+.DS_Store
+vendor/
+runtime/*
+/app/DevConfig/
+/bin/dev.php
+/watch
