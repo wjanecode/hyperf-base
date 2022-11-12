@@ -12,8 +12,8 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
-use WjaneCode\HyperfBase\Constant\Constants;
-use WjaneCode\HyperfBase\Log\Log;
+use WJaneCode\HyperfBase\Constant\Constants;
+use WJaneCode\HyperfBase\Log\Log;
 
 class Response
 {

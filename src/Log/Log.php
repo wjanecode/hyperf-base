@@ -9,7 +9,7 @@ use Hyperf\Utils\ApplicationContext;
 use Hyperf\Utils\Coroutine;
 use Monolog\Logger;
 use Psr\Http\Message\ServerRequestInterface;
-use WjaneCode\HyperfBase\Constant\Constants;
+use WJaneCode\HyperfBase\Constant\Constants;
 
 /**
  * 这个类是一个Log的简易使用接口封装

@@ -3,6 +3,12 @@ declare(strict_types=1);
 
 namespace WJaneCode\HyperfBase;
 
+use Hyperf\HttpServer\CoreMiddleware;
+use Hyperf\Validation\Middleware\ValidationMiddleware;
+use Qbhy\HyperfTesting\TestResponse;
+use WJaneCode\HyperfBase\Middleware\AppCoreMiddleware;
+use WJaneCode\HyperfBase\Middleware\AppValidationMiddleware;
+
 /**
  * 组件配置
  */
@@ -11,8 +17,11 @@ class ConfigProvider
     public function __invoke():array
     {
         return [
+            //替换依赖类
             'dependencies' => [
-
+                CoreMiddleware::class => AppCoreMiddleware::class,
+                ValidationMiddleware::class => AppValidationMiddleware::class,
+                TestResponse::class => \WJaneCode\HyperfBase\Aspect\TestResponse::class,
             ],
             'commands' => [
             ],
@@ -30,9 +39,9 @@ class ConfigProvider
             'publish' => [
                 [
                     'id' => 'config',
-                    'description' => 'hyperf-common config.', // 描述
+                    'description' => 'hyperf-base config.', // 描述
                     // 建议默认配置放在 publish 文件夹中，文件命名和组件名称相同
-                    'source' => __DIR__ . '/Publish/hyperf-common.php',  // 对应的配置文件路径
+                    'source' => __DIR__ . '/Publish/hyperf-base.php',  // 对应的配置文件路径
                     'destination' => BASE_PATH . '/config/autoload/hyperf-base.php', // 复制为这个路径下的该文件
                 ],
                 [

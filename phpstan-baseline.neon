@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Variable \\$order might not be defined\\.$#"
+			count: 1
+			path: src/Agent/
