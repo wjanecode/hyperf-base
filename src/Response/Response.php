@@ -12,7 +12,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
-use WjaneCode\HyperfBase\Constants\Constants;
+use WjaneCode\HyperfBase\Constant\Constants;
 use WjaneCode\HyperfBase\Log\Log;
 
 class Response
@@ -62,7 +62,7 @@ class Response
      * 把请求内的信息返回
      * @return array
      */
-    public function getResponseParam()
+    public function getResponseParam(): array
     {
         if (!$this->isWgw()) {
             return [];

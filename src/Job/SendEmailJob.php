@@ -3,19 +3,20 @@ declare(strict_types=1);
 
 namespace WJaneCode\HyperfBase\Job;
 
+use Hyperf\AsyncQueue\Job;
 use Hyperf\Utils\ApplicationContext;
 use WJaneCode\HyperfBase\Entity\EmailEntity;
 use WJaneCode\HyperfBase\Log\Log;
 use WJaneCode\HyperfBase\Service\EmailService;
 
-class SendEmailJob
+class SendEmailJob extends Job
 {
     private EmailEntity $emailEntity;
 
     /**
      * 最大重试次数
      */
-    protected int $maxAttempts = 3;
+    protected $maxAttempts = 3;
 
     public function __construct(EmailEntity $emailEntity)
     {

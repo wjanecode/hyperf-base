@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\HeaderBag;
  * 普通请求的封装
  * 可以实现按照请求规则的检查
  * Class Request
- * @package ZYProSoft\Http
  */
 class Request extends FormRequest
 {

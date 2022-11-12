@@ -43,7 +43,7 @@ class CallResult
     public function successOrFailException()
     {
         if (!$this->isSuccess()) {
-            throw new HyperfBaseException("module call fail with code({$this->code}) message({$this->message})",ErrorCode::MODULE_CALL_FAIL );
+            throw new HyperfBaseException(ErrorCode::MODULE_CALL_FAIL,"module call fail with code({$this->code}) message({$this->message})");
         }else{
             return $this->data;
         }
