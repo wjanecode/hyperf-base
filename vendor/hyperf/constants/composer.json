@@ -1,0 +1,46 @@
+{
+    "name": "hyperf/constants",
+    "description": "A constants component for hyperf.",
+    "license": "MIT",
+    "keywords": [
+        "php",
+        "hyperf",
+        "constants"
+    ],
+    "homepage": "https://hyperf.io",
+    "support": {
+        "docs": "https://hyperf.wiki",
+        "issues": "https://github.com/hyperf/hyperf/issues",
+        "pull-request": "https://github.com/hyperf/hyperf/pulls",
+        "source": "https://github.com/hyperf/hyperf"
+    },
+    "require": {
+        "php": ">=7.2",
+        "hyperf/di": "~2.2.0",
+        "hyperf/utils": "~2.2.0"
+    },
+    "suggest": {
+        "hyperf/translation": "Required to use translation."
+    },
+    "autoload": {
+        "psr-4": {
+            "Hyperf\\Constants\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "HyperfTest\\Constants\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.2-dev"
+        },
+        "hyperf": {
+            "config": "Hyperf\\Constants\\ConfigProvider"
+        }
+    }
+}
