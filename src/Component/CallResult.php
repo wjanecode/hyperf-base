@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 namespace WJaneCode\HyperfBase\Component;
-use WJaneCode\HyperfBase\Constants\ErrorCode;
-use ZYProSoft\Exception\HyperfCommonException;
+use WJaneCode\HyperfBase\Constant\ErrorCode;
+use WJaneCode\HyperfBase\Exception\HyperfBaseException;
 
 /**
  * 请求第三方服务的结果，有的不是关键路径，不能抛出异常
@@ -38,11 +38,12 @@ class CallResult
     /**
      * 是返回成功结果还是抛出异常
      * @return array|mixed
+     * @throws HyperfBaseException
      */
     public function successOrFailException()
     {
         if (!$this->isSuccess()) {
-            throw new HyperfCommonException(ErrorCode::MODULE_CALL_FAIL, "module call fail with code({$this->code}) message({$this->message})");
+            throw new HyperfBaseException("module call fail with code({$this->code}) message({$this->message})",ErrorCode::MODULE_CALL_FAIL );
         }else{
             return $this->data;
         }

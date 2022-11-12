@@ -13,7 +13,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Qbhy\HyperfAuth\Exception\AuthException;
-use WJaneCode\HyperfBase\Constants\ErrorCode;
+use WJaneCode\HyperfBase\Constant\ErrorCode;
 use WJaneCode\HyperfBase\Response\Response;
 use Throwable;
 use WJaneCode\HyperfBase\Exception\HyperfBaseException;

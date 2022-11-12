@@ -2,14 +2,14 @@
 declare(strict_types=1);
 
 namespace WJaneCode\HyperfBase\Log;
+use Hyperf\Context\Context;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Utils\ApplicationContext;
-use Hyperf\Utils\Context;
 use Hyperf\Utils\Coroutine;
 use Monolog\Logger;
 use Psr\Http\Message\ServerRequestInterface;
-use WjaneCode\HyperfBase\Constants\Constants;
+use WjaneCode\HyperfBase\Constant\Constants;
 
 /**
  * 这个类是一个Log的简易使用接口封装

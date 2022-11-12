@@ -6,7 +6,7 @@ namespace WJaneCode\HyperfBase\Aspect;
 use Hyperf\Utils\Codec\Json;
 use PHPUnit\Framework\Assert;
 use Qbhy\HyperfTesting\TestResponse as QTestResponse;
-use WJaneCode\HyperfBase\Constants\ErrorCode;
+use WJaneCode\HyperfBase\Constant\ErrorCode;
 
 /**
  * 断言返回状态是否正确

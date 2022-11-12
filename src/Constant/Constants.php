@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WJaneCode\HyperfBase\Constants;
+namespace WJaneCode\HyperfBase\Constant;
 
 use Hyperf\Constants\AbstractConstants;
 
