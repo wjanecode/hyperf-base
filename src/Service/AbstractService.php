@@ -17,6 +17,7 @@ use Psr\SimpleCache\CacheInterface;
 use Qbhy\HyperfAuth\Authenticatable;
 use Qbhy\HyperfAuth\AuthManager;
 use WJaneCode\HyperfBase\Entity\EmailEntity;
+use WJaneCode\HyperfBase\Job\ClearPrefixCacheJob;
 use WJaneCode\HyperfBase\Job\SendEmailJob;
 use WJaneCode\HyperfBase\Log\Log;
 use WJaneCode\HyperfBase\Service\EmailService;
@@ -125,6 +126,25 @@ abstract class AbstractService
     protected function asyncSendEmail(EmailEntity $emailEntity)
     {
         $this->push(new SendEmailJob($emailEntity));
+    }
+
+    /**
+     * 清除缓存
+     * @param string $listener
+     * @param array $arguments
+     */
+    protected function clearCache(string $listener, array $arguments)
+    {
+        $deleteEvent = new DeleteListenerEvent($listener, $arguments);
+        $this->dispatch($deleteEvent);
+    }
+    /**
+     * 通过异步任务清除缓存
+     * @param string $prefix
+     */
+    protected function clearCachePrefix(string $prefix)
+    {
+        $this->push(new ClearPrefixCacheJob($prefix));
     }
 
 }
