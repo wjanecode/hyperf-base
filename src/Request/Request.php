@@ -10,8 +10,8 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Qbhy\HyperfAuth\AuthManager;
 use WJaneCode\HyperfBase\Constant\Constants;
-use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-use Symfony\Component\HttpFoundation\HeaderBag;
+//use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+//use Symfony\Component\HttpFoundation\HeaderBag;
 /**
  * 普通请求的封装
  * 可以实现按照请求规则的检查
@@ -124,7 +124,7 @@ class Request extends FormRequest
     /**
      * 将请求转成easyWeChat的请求
      */
-    public function easyWeChatRequest(): SymfonyRequest
+    public function easyWeChatRequest()
     {
         $get = $this->getQueryParams();
         $post = $this->getParsedBody();
@@ -137,8 +137,8 @@ class Request extends FormRequest
         foreach ($uploadFiles as $k => $v) {
             $files[$k] = $v->toArray();
         }
-        $request = new SymfonyRequest($get, $post, [], $cookie, $files, $server, $xml);
-        $request->headers = new HeaderBag($this->getHeaders());
-        return $request;
+//        $request = new SymfonyRequest($get, $post, [], $cookie, $files, $server, $xml);
+//        $request->headers = new HeaderBag($this->getHeaders());
+//        return $request;
     }
 }

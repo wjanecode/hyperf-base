@@ -19,7 +19,6 @@
     "hyperf/config": "^2.2",
     "hyperf/validation": "^2.2",
     "hyperf/utils": "^2.2",
-    "symfony/http-foundation": "^6.1",
     "phpmailer/phpmailer": "^6.6",
     "gregwar/captcha": "^1.1",
     "hyperf/async-queue": "^2.2",
