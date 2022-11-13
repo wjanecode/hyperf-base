@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0c831f0cd5d9e819db50d95740911321",
+    "content-hash": "749b46822dd60e1ca783fc3bcd6382b6",
     "packages": [
         {
             "name": "96qbhy/hyperf-auth",
@@ -1962,6 +1962,61 @@
                 "issues": "https://github.com/hyperf/hyperf/issues",
                 "pull-request": "https://github.com/hyperf/hyperf/pulls",
                 "source": "https://github.com/hyperf/hyperf"
+            },
+            "time": "2022-05-24T13:10:54+00:00"
+        },
+        {
+            "name": "hyperf/guzzle",
+            "version": "v2.2.33",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hyperf/guzzle.git",
+                "reference": "ef4d6b02778cf44b7f0edefd9c33a5d8d08ad48f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hyperf/guzzle/zipball/ef4d6b02778cf44b7f0edefd9c33a5d8d08ad48f",
+                "reference": "ef4d6b02778cf44b7f0edefd9c33a5d8d08ad48f",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.3|^7.0",
+                "hyperf/utils": "~2.2.0",
+                "php": ">=7.0",
+                "psr/container": "^1.0|^2.0",
+                "psr/http-message": "^1.0"
+            },
+            "suggest": {
+                "hyperf/pool": "Required to use pool handler."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                },
+                "hyperf": {
+                    "config": "Hyperf\\Guzzle\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hyperf\\Guzzle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Swoole coroutine handler for guzzle",
+            "keywords": [
+                "Guzzle",
+                "handler",
+                "php",
+                "swoole"
+            ],
+            "support": {
+                "issues": "https://github.com/hyperf/guzzle/issues",
+                "source": "https://github.com/hyperf/guzzle/tree/v2.2.33"
             },
             "time": "2022-05-24T13:10:54+00:00"
         },

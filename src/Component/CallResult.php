@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace WJaneCode\HyperfBase\Component;
+
 use WJaneCode\HyperfBase\Constant\ErrorCode;
 use WJaneCode\HyperfBase\Exception\HyperfBaseException;
 
@@ -25,22 +26,22 @@ class CallResult
         $this->data = $data;
     }
 
-    public static function success($data)
+    public static function success($data): CallResult
     {
         return new CallResult(0, "ok", $data);
     }
 
-    public static function fail($code, $message = 'fail', $data = [])
+    public static function fail($code, $message = 'fail', $data = []): CallResult
     {
         return new CallResult($code, $message, $data);
     }
 
     /**
      * 是返回成功结果还是抛出异常
-     * @return array|mixed
+     * @return array
      * @throws HyperfBaseException
      */
-    public function successOrFailException()
+    public function successOrFailException(): array
     {
         if (!$this->isSuccess()) {
             throw new HyperfBaseException(ErrorCode::MODULE_CALL_FAIL,"module call fail with code({$this->code}) message({$this->message})");
@@ -49,7 +50,7 @@ class CallResult
         }
     }
 
-    public function isSuccess()
+    public function isSuccess(): bool
     {
         return $this->code == 0;
     }
