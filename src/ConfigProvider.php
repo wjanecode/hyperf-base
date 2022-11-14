@@ -1,6 +1,10 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase;
 
 use Hyperf\HttpServer\CoreMiddleware;
@@ -10,14 +14,14 @@ use WJaneCode\HyperfBase\Middleware\AppCoreMiddleware;
 use WJaneCode\HyperfBase\Middleware\AppValidationMiddleware;
 
 /**
- * 组件配置
+ * 组件配置.
  */
 class ConfigProvider
 {
-    public function __invoke():array
+    public function __invoke(): array
     {
         return [
-            //替换依赖类
+            // 替换依赖类
             'dependencies' => [
                 CoreMiddleware::class => AppCoreMiddleware::class,
                 ValidationMiddleware::class => AppValidationMiddleware::class,
@@ -43,6 +47,13 @@ class ConfigProvider
                     // 建议默认配置放在 publish 文件夹中，文件命名和组件名称相同
                     'source' => __DIR__ . '/Publish/hyperf-base.php',  // 对应的配置文件路径
                     'destination' => BASE_PATH . '/config/autoload/hyperf-base.php', // 复制为这个路径下的该文件
+                ],
+                [
+                    'id' => 'config',
+                    'description' => 'auth config.', // 描述
+                    // 建议默认配置放在 publish 文件夹中，文件命名和组件名称相同
+                    'source' => __DIR__ . '/Publish/auth.php',  // 对应的配置文件路径
+                    'destination' => BASE_PATH . '/config/autoload/auth.php', // 复制为这个路径下的该文件
                 ],
                 [
                     'id' => 'shell',

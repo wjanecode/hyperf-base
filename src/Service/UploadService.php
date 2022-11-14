@@ -1,6 +1,10 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Service;
 
 use Carbon\Carbon;
@@ -43,14 +47,13 @@ class UploadService extends AbstractService
     public function uploadLocalFileToQiniu(UploadedFile $file)
     {
         $stream = fopen($file->getRealPath(), 'r+');
-        $fileName = Carbon::now()->getTimestamp().'.'.$file->getExtension();
+        $fileName = Carbon::now()->getTimestamp() . '.' . $file->getExtension();
         $this->fileQiniu()->writeStream($fileName, $stream);
         fclose($stream);
         $adapter = $this->fileQiniuAdapter();
         if ($adapter instanceof QiniuAdapter) {
             return $adapter->getUrl($fileName);
-        }else{
-            throw new HyperfBaseException(ErrorCode::BUSINESS_CODE_NOT_SUCCESS);
         }
+        throw new HyperfBaseException(ErrorCode::BUSINESS_CODE_NOT_SUCCESS);
     }
 }

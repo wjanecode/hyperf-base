@@ -1,6 +1,10 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Task;
 
 use Hyperf\Utils\ApplicationContext;
@@ -8,7 +12,7 @@ use WJaneCode\HyperfBase\Log\Log;
 use WJaneCode\HyperfBase\Service\LogService;
 
 /**
- * 定时清除过期日记文件
+ * 定时清除过期日记文件.
  */
 class ClearLogFileTask
 {
@@ -17,13 +21,12 @@ class ClearLogFileTask
         $service = ApplicationContext::getContainer()->get(LogService::class);
         try {
             $service->clearExpireLog();
-        }catch (\Throwable $exception) {
+        } catch (\Throwable $exception) {
             $code = $exception->getCode();
             $message = $exception->getMessage();
             $backTrace = $exception->getTraceAsString();
-            Log::task("clear log task exception:$code message:$message");
+            Log::task("clear log task exception:{$code} message:{$message}");
             Log::task($backTrace);
         }
     }
-
 }

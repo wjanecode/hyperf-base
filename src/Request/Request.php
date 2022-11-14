@@ -1,5 +1,10 @@
 <?php
+
 declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Request;
 
 use Hyperf\Contract\ContainerInterface;
@@ -10,12 +15,13 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Qbhy\HyperfAuth\AuthManager;
 use WJaneCode\HyperfBase\Constant\Constants;
-//use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-//use Symfony\Component\HttpFoundation\HeaderBag;
+
+// use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+// use Symfony\Component\HttpFoundation\HeaderBag;
 /**
  * 普通请求的封装
  * 可以实现按照请求规则的检查
- * Class Request
+ * Class Request.
  */
 class Request extends FormRequest
 {
@@ -32,42 +38,38 @@ class Request extends FormRequest
     }
 
     /**
-     * 是否ZGW协议
-     * @return bool
+     * 是否ZGW协议.
      */
     public function isWgw(): bool
     {
-        return !empty($this->getHeaderLine(Constants::WGW));
+        return ! empty($this->getHeaderLine(Constants::WGW));
     }
 
     /**
      * 是不是上传请求
-     * @return bool
      */
     public function isUpload(): bool
     {
-        return !empty($this->getHeaderLine(Constants::UPLOAD_SYSTEM_TYPE_LOCAL));
+        return ! empty($this->getHeaderLine(Constants::UPLOAD_SYSTEM_TYPE_LOCAL));
     }
 
     /**
-     * 获取请求参数
+     * 获取请求参数.
      * @return array|mixed
      */
     public function getParams()
     {
-        if (!$this->isMethod('POST')) {
-            return  $this->getQueryParams();
+        if (! $this->isMethod('POST')) {
+            return $this->getQueryParams();
         }
         if ($this->isZgw()) {
-            return $this->post("interface.param");
+            return $this->post('interface.param');
         }
         return $this->post();
     }
 
     /**
-     * 是否有传某个参数
-     * @param string $key
-     * @return bool
+     * 是否有传某个参数.
      */
     public function hasParam(string $key): bool
     {
@@ -75,14 +77,13 @@ class Request extends FormRequest
     }
 
     /**
-     * 取参数
-     * @param string $key
+     * 取参数.
      * @param null $default
-     * @return mixed|null
+     * @return null|mixed
      */
     public function param(string $key, $default = null)
     {
-        if (!$this->hasParam($key)) {
+        if (! $this->hasParam($key)) {
             return $default;
         }
         return Arr::get($this->getParams(), $key);
@@ -95,30 +96,12 @@ class Request extends FormRequest
 
     public function getToken()
     {
-        return $this->input("token");
+        return $this->input('token');
     }
 
     public function isLogin(): bool
     {
         return $this->auth->check();
-    }
-
-    /**
-     * 需要重写
-     * @return bool
-     */
-    protected function isAdmin(): bool
-    {
-        return  false;
-    }
-
-    /**
-     * 根据协议修改验证内容
-     * @return array
-     */
-    protected function validationData(): array
-    {
-        return  $this->getParams();
     }
 
     /**
@@ -140,5 +123,21 @@ class Request extends FormRequest
 //        $request = new SymfonyRequest($get, $post, [], $cookie, $files, $server, $xml);
 //        $request->headers = new HeaderBag($this->getHeaders());
 //        return $request;
+    }
+
+    /**
+     * 需要重写.
+     */
+    protected function isAdmin(): bool
+    {
+        return false;
+    }
+
+    /**
+     * 根据协议修改验证内容.
+     */
+    protected function validationData(): array
+    {
+        return $this->getParams();
     }
 }

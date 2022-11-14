@@ -1,6 +1,10 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Response;
 
 use Hyperf\Context\Context;
@@ -17,11 +21,11 @@ use WJaneCode\HyperfBase\Log\Log;
 
 class Response
 {
-    private ContainerInterface $container;
-
     public ResponseInterface $response;
 
     public RequestInterface $request;
+
+    private ContainerInterface $container;
 
     /**
      * @throws ContainerExceptionInterface
@@ -35,46 +39,44 @@ class Response
     }
 
     /**
-     * 是否WGW协议
-     * @return bool
+     * 是否WGW协议.
      */
     public function isWgw(): bool
     {
-        return !empty($this->request->getHeaderLine(Constants::WGW));
+        return ! empty($this->request->getHeaderLine(Constants::WGW));
     }
 
     /**
-     * 获取请求参数
+     * 获取请求参数.
      * @return array|mixed
      */
     public function getParams()
     {
-        if (!$this->request->isMethod('POST')) {
-            return  $this->request->getQueryParams();
+        if (! $this->request->isMethod('POST')) {
+            return $this->request->getQueryParams();
         }
         if ($this->isWgw()) {
-            return $this->request->post("interface.param");
+            return $this->request->post('interface.param');
         }
         return $this->request->post();
     }
 
     /**
-     * 把请求内的信息返回
-     * @return array
+     * 把请求内的信息返回.
      */
     public function getResponseParam(): array
     {
-        if (!$this->isWgw()) {
+        if (! $this->isWgw()) {
             return [];
         }
         $responseParam = [
-            "seqId",
-            "eventId",
+            'seqId',
+            'eventId',
         ];
         $responseInfo = $this->request->inputs($responseParam);
-        $responseInfo["component"] = config("app_name");
+        $responseInfo['component'] = config('app_name');
 
-        return  $responseInfo;
+        return $responseInfo;
     }
 
     public function success($data = []): PsrResponseInterface
@@ -83,7 +85,7 @@ class Response
             'code' => 0,
             'message' => 'ok',
             'data' => $data,
-            'timestamp' => time()
+            'timestamp' => time(),
         ];
         $requestInfo = $this->getResponseParam();
         $result = array_merge($requestInfo, $result);
@@ -97,13 +99,13 @@ class Response
             'code' => $errorCode,
             'message' => $message,
             'data' => $data,
-            'timestamp' => time()
+            'timestamp' => time(),
         ];
 
         $requestInfo = $this->getResponseParam();
         $result = array_merge($requestInfo, $body);
 
-        $msg = "http request end response fail with content:".json_encode($result);
+        $msg = 'http request end response fail with content:' . json_encode($result);
         Log::req($msg);
         Log::info($msg);
 
@@ -119,12 +121,12 @@ class Response
 
     public function toWeChatXml(string $xml, int $statusCode = 200): PsrResponseInterface
     {
-        $msg = "WeChat http request end response with status($statusCode) content:".$xml;
+        $msg = "WeChat http request end response with status({$statusCode}) content:" . $xml;
         Log::req($msg);
         Log::info($msg);
 
         return $this->response->withStatus($statusCode)
-            ->withAddedHeader("Content-Type", "application/xml; charset=utf-8")
+            ->withAddedHeader('Content-Type', 'application/xml; charset=utf-8')
             ->withBody(new SwooleStream($xml));
     }
 }

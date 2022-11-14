@@ -1,6 +1,10 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Entity;
 
 /**
@@ -8,14 +12,10 @@ namespace WJaneCode\HyperfBase\Entity;
  */
 class EmailAddressEntity
 {
-    /**
-     * @var string
-     */
     public string $address;
 
     /**
-     * 地址对应的名字
-     * @var string
+     * 地址对应的名字.
      */
     public string $name;
 

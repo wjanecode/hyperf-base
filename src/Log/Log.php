@@ -1,7 +1,12 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Log;
+
 use Hyperf\Context\Context;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Logger\LoggerFactory;
@@ -19,29 +24,27 @@ use WJaneCode\HyperfBase\Constant\Constants;
  * request日志为请求日志
  * system日志为框架std输出的日志
  * daily日志为框架的详细日志
- * Class Log
- * @package ZYProSoft\Log
+ * Class Log.
  */
 class Log
 {
     /**
-     * 从调用栈获取接口信息
-     * @param array $backTrace
+     * 从调用栈获取接口信息.
      * @return string|string[]
      */
     public static function requestEntry(array $backTrace)
     {
         $moduleName = '';
         foreach ($backTrace as $v) {
-            if (isset($v['file']) && stripos($v['file'],'CoreMiddleware.php')) {
-                $tmp = array_reverse(explode('\\',trim($v['class'])));
-                if (substr(strtolower($tmp[0]),-10) == 'controller') {
-                    $module = str_replace('controller','',strtolower($tmp[1]));
-                    $class = str_replace('controller','',strtolower($tmp[0]));
+            if (isset($v['file']) && stripos($v['file'], 'CoreMiddleware.php')) {
+                $tmp = array_reverse(explode('\\', trim($v['class'])));
+                if (substr(strtolower($tmp[0]), -10) == 'controller') {
+                    $module = str_replace('controller', '', strtolower($tmp[1]));
+                    $class = str_replace('controller', '', strtolower($tmp[0]));
                     $function = $v['function'];
-                    $moduleName = $class.'.'.$function;
+                    $moduleName = $class . '.' . $function;
                     if ($module) {
-                        $moduleName = $module.'.'.$moduleName;
+                        $moduleName = $module . '.' . $moduleName;
                     }
                     break;
                 }
@@ -52,12 +55,11 @@ class Log
                 if (ApplicationContext::getContainer()->has(RequestInterface::class)) {
                     $request = ApplicationContext::getContainer()->get(RequestInterface::class);
                     $uri = $request->getUri()->getPath();
-                    $moduleName = str_replace('/','.',ltrim($uri,'/'));
+                    $moduleName = str_replace('/', '.', ltrim($uri, '/'));
                 }
             }
         }
-        $moduleName = $moduleName??'system';
-        return $moduleName;
+        return $moduleName ?? 'system';
     }
 
     public static function logger($group = 'default')
@@ -78,8 +80,7 @@ class Log
 
         $logger = self::logger($group);
 
-        switch ($level)
-        {
+        switch ($level) {
             case Logger::INFO:
                 $logger->info($message);
                 break;
@@ -108,53 +109,108 @@ class Log
     }
 
     /**
-     *  获取追踪ID
-     * @param $message
+     *  请求日记.
+     */
+    public static function req($msg, $level = Logger::INFO)
+    {
+        self::log($msg, $level, 'request');
+    }
+
+    /**
+     * crontab日记.
+     */
+    public static function task($msg, $level = Logger::INFO)
+    {
+        self::log($msg, $level, 'task');
+    }
+
+    public static function debug($msg)
+    {
+        self::log($msg, Logger::DEBUG);
+    }
+
+    public static function info($msg)
+    {
+        self::log($msg, Logger::INFO);
+    }
+
+    public static function warning($msg)
+    {
+        self::log($msg, Logger::WARNING);
+    }
+
+    public static function notice($msg)
+    {
+        self::log($msg, Logger::NOTICE);
+    }
+
+    public static function error($msg)
+    {
+        self::log($msg, Logger::ERROR);
+    }
+
+    public static function critical($msg)
+    {
+        self::log($msg, Logger::CRITICAL);
+    }
+
+    public static function alert($msg)
+    {
+        self::log($msg, Logger::ALERT);
+    }
+
+    public static function emergency($msg)
+    {
+        self::log($msg, Logger::EMERGENCY);
+    }
+
+    /**
+     *  获取追踪ID.
      * @return mixed|string
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     private static function getFlowId($message)
     {
-        //不在协程，直接返回
-        if (!Coroutine::inCoroutine() || !Context::has(ServerRequestInterface::class)) {
+        // 不在协程，直接返回
+        if (! Coroutine::inCoroutine() || ! Context::has(ServerRequestInterface::class)) {
             return $message;
         }
-        if (!ApplicationContext::getContainer()->has(RequestInterface::class)) {
+        if (! ApplicationContext::getContainer()->has(RequestInterface::class)) {
             return $message;
         }
         $request = ApplicationContext::getContainer()->get(RequestInterface::class);
-        if (!isset($request)) {
+        if (! isset($request)) {
             return $message;
         }
         $coId = Coroutine::id();
         $reqId = $request->getHeaderLine(Constants::WJANE_REQ_ID);
-        $combineKey = "co($coId)";
-        if (isset($reqId) && !empty($reqId)) {
-            $combineKey .= "-$reqId";
+        $combineKey = "co({$coId})";
+        if (isset($reqId) && ! empty($reqId)) {
+            $combineKey .= "-{$reqId}";
         }
-        return sprintf("%s || %s", $combineKey, $message);
+        return sprintf('%s || %s', $combineKey, $message);
     }
 
     private static function getLocationInfo($message): string
     {
-        $locationInfo = array();
+        $locationInfo = [];
         if (Coroutine::inCoroutine()) {
             $trace = \Swoole\Coroutine::getBackTrace();
-        }else{
+        } else {
             $trace = debug_backtrace();
         }
         $prevHop = null;
         $hop = array_pop($trace);
-        while($hop !== null) {
-            if(isset($hop['class'])) {
+        while ($hop !== null) {
+            if (isset($hop['class'])) {
                 $parentClass = get_parent_class($hop['class']);
                 if ($parentClass === false) {
                     $parentClass = '';
                 }
                 $className = strtolower($hop['class']);
-                if(!empty($className) and ($className == 'wjanecode\hyperfbase\log\log' or
-                        strtolower($parentClass) == 'wjanecode\hyperfbase\log\log')) {
+                if (! empty($className) and ($className == 'wjanecode\hyperfbase\log\log'
+                        or strtolower($parentClass) == 'wjanecode\hyperfbase\log\log')) {
                     $locationInfo['line'] = $hop['line'];
                     $locationInfo['file'] = $hop['file'];
                     break;
@@ -164,72 +220,16 @@ class Log
             $hop = array_pop($trace);
         }
         $locationInfo['class'] = isset($prevHop['class']) ? $prevHop['class'] : 'main';
-        if(isset($prevHop['function']) and
-            $prevHop['function'] !== 'include' and
-            $prevHop['function'] !== 'include_once' and
-            $prevHop['function'] !== 'require' and
-            $prevHop['function'] !== 'require_once') {
-
+        if (isset($prevHop['function'])
+            and $prevHop['function'] !== 'include'
+            and $prevHop['function'] !== 'include_once'
+            and $prevHop['function'] !== 'require'
+            and $prevHop['function'] !== 'require_once') {
             $locationInfo['function'] = $prevHop['function'];
         } else {
             $locationInfo['function'] = 'main';
         }
 
-        return $locationInfo['file']."({$locationInfo['line']}) || {$locationInfo['function']}() || $message";
-    }
-
-    /**
-     *  请求日记
-     * @param $msg
-     * @param $level
-     * @return void
-     */
-    public static function req($msg, $level = Logger::INFO)
-    {
-        self::log($msg, $level, 'request');
-    }
-
-    /**
-     * crontab日记
-     * @param $msg
-     * @param $level
-     * @return void
-     */
-    public static function task($msg , $level = Logger::INFO)
-    {
-        self::log($msg, $level, 'task');
-    }
-
-    public static function debug($msg)
-    {
-        self::log($msg, Logger::DEBUG);
-    }
-    public static function info($msg)
-    {
-        self::log($msg,Logger::INFO);
-    }
-    public static function warning($msg)
-    {
-        self::log($msg,Logger::WARNING);
-    }
-    public static function notice($msg)
-    {
-        self::log($msg, Logger::NOTICE);
-    }
-    public static function error($msg)
-    {
-        self::log($msg,Logger::ERROR);
-    }
-    public static function critical($msg)
-    {
-        self::log($msg,Logger::CRITICAL);
-    }
-    public static function alert($msg)
-    {
-        self::log($msg,Logger::ALERT);
-    }
-    public static function emergency($msg)
-    {
-        self::log($msg,Logger::EMERGENCY);
+        return $locationInfo['file'] . "({$locationInfo['line']}) || {$locationInfo['function']}() || {$message}";
     }
 }

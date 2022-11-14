@@ -1,20 +1,21 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Exception;
 
-use Exception;
-use Throwable;
 use WJaneCode\HyperfBase\Constant\ErrorCode;
 
-class HyperfBaseException extends Exception
+class HyperfBaseException extends \Exception
 {
-    public function __construct(int $code = 0,string $message = null,  Throwable $throwable = null)
+    public function __construct(int $code = 0, string $message = null, \Throwable $throwable = null)
     {
-        if (is_null($message)){
+        if (is_null($message)) {
             $message = ErrorCode::getMessage($code);
         }
-        parent::__construct($message,$code,$throwable);
+        parent::__construct($message, $code, $throwable);
     }
-
 }

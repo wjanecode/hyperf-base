@@ -1,6 +1,10 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Facade;
 
 use Hyperf\Utils\ApplicationContext;
@@ -11,7 +15,7 @@ use Qbhy\HyperfAuth\AuthManager;
 
 /**
  * token 鉴权
- * 对
+ * 对.
  */
 class Auth
 {

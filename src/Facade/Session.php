@@ -1,6 +1,10 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Facade;
 
 use Hyperf\Contract\SessionInterface;
@@ -31,6 +35,15 @@ use Hyperf\Utils\ApplicationContext;
  */
 class Session
 {
+    public static function __callStatic($method, $args)
+    {
+        if (method_exists(static::session(), $method)) {
+            call([static::session(), $method], $args);
+        } else {
+            throw new Exception('no method for session', 404);
+        }
+    }
+
     public static function session()
     {
         return ApplicationContext::getContainer()->get(SessionInterface::class);
@@ -38,17 +51,8 @@ class Session
 
     public static function token2SessionId($token): string
     {
-        //Session插件要求长度为40
-        $holder = "wjanecode";
-        return md5($token).$holder;
-    }
-
-    public static function __callStatic($method, $args)
-    {
-        if (method_exists(static::session(), $method)) {
-            call([static::session(), $method], $args);
-        }else{
-            throw new Exception("no method for session", 404);
-        }
+        // Session插件要求长度为40
+        $holder = 'wjanecode';
+        return md5($token) . $holder;
     }
 }

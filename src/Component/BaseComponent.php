@@ -1,54 +1,57 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Component;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use Hyperf\Guzzle\CoroutineHandler;
 use Psr\Container\ContainerInterface;
 use Swoole\Coroutine;
-use Closure;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
 use WJaneCode\HyperfBase\Log\Log;
-use WJaneCode\HyperfBase\Component\CallResult;
+
 /**
  * 通过Http请求第三方服务的组件
  * 主要对请求方法进行了简单的封装
  * 增加重试插件和日志插件注入
  * 封装第三方调用结果的返回，可以是忽略错误或者指定
  * 必须抛出异常
- * Class BaseComponent
+ * Class BaseComponent.
  */
 abstract class BaseComponent
 {
-    private ContainerInterface $container;
-
     protected Client $client;
 
     /**
-     * 初始化client的配置
+     * 初始化client的配置.
      */
     protected array $options = [];
 
     /**
-     * 最大重试次数
+     * 最大重试次数.
      */
     protected int $retryCount = 3;
 
     /**
-     * 重试时间
+     * 重试时间.
      */
     protected int $retryTime = 1000;
 
     protected MessageFormatter $logMsgFormatter;
 
-    protected string $logMsgTemplate = "{host}||{target}||{req_headers}||{req_body}||{code}||{res_headers}||{res_body}";
+    protected string $logMsgTemplate = '{host}||{target}||{req_headers}||{req_body}||{code}||{res_headers}||{res_body}';
+
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
@@ -58,8 +61,7 @@ abstract class BaseComponent
     }
 
     /**
-     * 创建请求client
-     * @return Client
+     * 创建请求client.
      */
     protected function createClient(): Client
     {
@@ -71,8 +73,8 @@ abstract class BaseComponent
         // 创建重试中间件
         $stack->push(Middleware::retry($this->retryDecider(), $this->retryDelay()));
         // 创建日志请求中间件
-        $stack->push(Middleware::log(Log::logger("request"), $this->logMsgFormatter));
-        $stack->push(Middleware::log(Log::logger("default"), $this->logMsgFormatter));
+        $stack->push(Middleware::log(Log::logger('request'), $this->logMsgFormatter));
+        $stack->push(Middleware::log(Log::logger('default'), $this->logMsgFormatter));
 
         $config = array_replace(['handler' => $stack], $this->options);
 
@@ -85,10 +87,9 @@ abstract class BaseComponent
 
     /**
      * retryDecider
-     * 返回一个匿名函数, 匿名函数若返回false 表示不重试，反之则表示继续重试
-     * @return Closure
+     * 返回一个匿名函数, 匿名函数若返回false 表示不重试，反之则表示继续重试.
      */
-    protected function retryDecider(): Closure
+    protected function retryDecider(): \Closure
     {
         return function (
             $retries,
@@ -111,10 +112,9 @@ abstract class BaseComponent
     }
 
     /**
-     * 返回一个匿名函数，该匿名函数返回下次重试的时间（毫秒）
-     * @return Closure
+     * 返回一个匿名函数，该匿名函数返回下次重试的时间（毫秒）.
      */
-    protected function retryDelay(): Closure
+    protected function retryDelay(): \Closure
     {
         return function ($numberOfRetries) {
             return $this->retryTime;
@@ -136,7 +136,7 @@ abstract class BaseComponent
         return CallResult::success($data);
     }
 
-    protected function fail($code, $message = 'fail', $data = []): CallResult
+    protected function fail($code, $message = 'fail', $data = [])
     {
         return CallResult::fail($code, $message, $data);
     }

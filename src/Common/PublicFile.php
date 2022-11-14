@@ -1,10 +1,14 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Common;
 
 /**
- * 公开目录的一些文件操作行为的封装
+ * 公开目录的一些文件操作行为的封装.
  */
 class PublicFile
 {
@@ -17,7 +21,7 @@ class PublicFile
     {
         $publicDir = $this->publicRootPath();
         if (file_exists($publicDir)) {
-            if (!is_dir($publicDir)) {
+            if (! is_dir($publicDir)) {
                 return false;
             }
             return true;
@@ -31,7 +35,7 @@ class PublicFile
         if (is_null($subDirPath)) {
             return false;
         }
-        if (file_exists($subDirPath)){
+        if (file_exists($subDirPath)) {
             if (is_dir($subDirPath)) {
                 return true;
             }
@@ -43,16 +47,16 @@ class PublicFile
     public function publicPath(string $subPath): ?string
     {
         $result = $this->createPublicDirIfNotExist();
-        if (!$result) {
+        if (! $result) {
             return null;
         }
-        return $this->publicRootPath().$subPath;
+        return $this->publicRootPath() . $subPath;
     }
 
     public function deletePublicPath(string $subPath): bool
     {
         $fullPath = $this->publicPath($subPath);
-        if (!file_exists($fullPath)) {
+        if (! file_exists($fullPath)) {
             return true;
         }
         if (is_dir($fullPath)) {

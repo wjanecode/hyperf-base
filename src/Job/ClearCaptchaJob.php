@@ -1,6 +1,10 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
+/**
+ * @link     https://51coode.com
+ * @contact  https://51coode.com
+ */
 namespace WJaneCode\HyperfBase\Job;
 
 use Hyperf\AsyncQueue\Job;
@@ -21,13 +25,12 @@ class ClearCaptchaJob extends Job
     }
 
     /**
-     * @return void
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function handle()
     {
         $captchaService = ApplicationContext::getContainer()->get(CaptchaService::class);
         $captchaService->remove($this->cacheKey);
-        Log::info("async clear captcha success with key:".$this->cacheKey);
+        Log::info('async clear captcha success with key:' . $this->cacheKey);
     }
 }
