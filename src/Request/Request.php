@@ -62,7 +62,7 @@ class Request extends FormRequest
         if (! $this->isMethod('POST')) {
             return $this->getQueryParams();
         }
-        if ($this->isZgw()) {
+        if ($this->isWgw()) {
             return $this->post('interface.param');
         }
         return $this->post();
