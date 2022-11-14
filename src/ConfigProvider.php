@@ -25,7 +25,7 @@ class ConfigProvider
             'dependencies' => [
                 CoreMiddleware::class => AppCoreMiddleware::class,
                 ValidationMiddleware::class => AppValidationMiddleware::class,
-                TestResponse::class => \WJaneCode\HyperfBase\Aspect\TestResponse::class,
+                TestResponse::class => Aspect\TestResponse::class,
             ],
             'commands' => [
             ],

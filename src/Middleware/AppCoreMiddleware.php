@@ -151,7 +151,7 @@ class AppCoreMiddleware extends CoreMiddleware
                 }
             }, $checkParamExist);
             // 如果开启了强制签名校验
-            $forceCheckAuth = $this->config->get('hyperf-common.WGW.force_auth');
+            $forceCheckAuth = $this->config->get('hyperf-base.wgw.force_auth');
             $authValues = data_get($requestBody, 'auth');
             if ($forceCheckAuth && ! isset($authValues)) {
                 throw new HyperfBaseException(ErrorCode::WGW_REQUEST_BODY_ERROR, 'WGW force auth need param auth!');
@@ -249,7 +249,7 @@ class AppCoreMiddleware extends CoreMiddleware
             }
         }
         // 如果开启了强制签名校验
-        $forceCheckAuth = $this->config->get('hyperf-common.WGW.force_auth');
+        $forceCheckAuth = $this->config->get('hyperf-base.wgw.force_auth');
         if ($forceCheckAuth && (! isset($requestBody['auth']) || empty($requestBody['auth']))) {
             throw new HyperfBaseException(ErrorCode::WGW_REQUEST_BODY_ERROR, 'WGW force auth need param auth!');
         }
