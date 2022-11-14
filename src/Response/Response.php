@@ -79,12 +79,12 @@ class Response
         return $responseInfo;
     }
 
-    public function success($data = []): PsrResponseInterface
+    public function success($data = null): PsrResponseInterface
     {
         $result = [
             'code' => 0,
             'message' => 'ok',
-            'data' => $data,
+            'data' => (array) $data,
             'timestamp' => time(),
         ];
         $requestInfo = $this->getResponseParam();

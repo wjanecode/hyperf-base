@@ -97,7 +97,7 @@ abstract class AbstractController
     /**
      * 返回成功响应.
      */
-    protected function success(array $result = []): ResponseInterface
+    protected function success($result = null): ResponseInterface
     {
         return $this->response->success($result);
     }
