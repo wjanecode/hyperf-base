@@ -23,15 +23,15 @@ php bin/hyperf.php vendor:publish wjanecode/hyperf-base
 ```
 ### wgw协议
 请求内容防篡改
-签名算法: 在hyperf-common.php配置好appId和appSecret 
-第一步:生成当前时间戳timestamp和随机字符串nonce 
-第二步:取出协议中的interface.name和param, php eg. $name = $reqBody['interface']['name']; 
-第三步:将第一步取出的参数按照如下加入到param, php eg. $param['interfaceName'] = $name; 
-第四步:将第二步的param参数按照首字母升序 
-第五步:将第四部参数数组json编码后进行md5编码得到参数字符串paramString,注意这里json编码不要主动编码为Unicode,不转义/字符 
-第六步:按照下面的格式拼接参数: appId=$appId&appSecret=$appSecret&nonce=$nonce&timestamp=$timestamp&$paramString; 
-第七步:用appSecret和第六步字符串采用sha256算法算出签名 
-第八步:将得到的签名使用参数名signature加入到auth
+- 签名算法: 在hyperf-common.php配置好appId和appSecret 
+- 第一步:生成当前时间戳timestamp和随机字符串nonce 
+- 第二步:取出协议中的interface.name和param, php eg. $name = $reqBody['interface']['name']; 
+- 第三步:将第一步取出的参数按照如下加入到param, php eg. $param['interfaceName'] = $name; 
+- 第四步:将第二步的param参数按照首字母升序 
+- 第五步:将第四部参数数组json编码后进行md5编码得到参数字符串paramString,注意这里json编码不要主动编码为Unicode,不转义/字符 
+- 第六步:按照下面的格式拼接参数: appId=$appId&appSecret=$appSecret&nonce=$nonce&timestamp=$timestamp&$paramString; 
+- 第七步:用appSecret和第六步字符串采用sha256算法算出签名 
+- 第八步:将得到的签名使用参数名signature加入到auth
 
 如果是接口带文件上传，需要将上述得到的auth和interface字段进行json编码,后端会在获取到请求的时候自动解码
 #### 请求格式
