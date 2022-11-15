@@ -49,9 +49,10 @@ class CrossOriginMiddleware implements MiddlewareInterface
         if (! $this->isCorsRequest($request)) {
             return $handler->handle($request);
         }
+        Log::debug('跨域中间件');
 
         //读取配置
-        $enableCrossOrigin = $this->config->get('hyperf-common.cors.enable_cross_origin',false);
+        $enableCrossOrigin = $this->config->get('hyperf-base.cors.enable_cross_origin',false);
         if (!$enableCrossOrigin) {
             //不准跨域
             throw new HttpException(403, "not allowed cross origin switch off");
@@ -59,7 +60,7 @@ class CrossOriginMiddleware implements MiddlewareInterface
 
         //读取允许跨域域名
         $origin = $request->getHeaderLine("Origin");
-        $configOrigins = $this->config->get("hyperf-common.cors.allow_cross_origins");
+        $configOrigins = $this->config->get("hyperf-base.cors.allow_cross_origins");
 
         //配置http://*.xxx.xxx.com跨域域名匹配
         $isCorsMatched = false;
