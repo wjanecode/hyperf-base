@@ -70,7 +70,7 @@ class RequestAuthMiddleware implements MiddlewareInterface
     {
         $auth = $requestBody["auth"];
         $timestamp = $auth["timestamp"];
-        $ttl = $this->config->get("hyperf-common.zgw.sign_ttl", 10);
+        $ttl = $this->config->get("hyperf-base.wgw.sign_ttl", 10);
         $secondDidPass = Carbon::now()->diffInRealSeconds(Carbon::createFromTimestamp($timestamp));
         Log::info("sign time did pass $secondDidPass seconds!");
         if ($secondDidPass > $ttl) {

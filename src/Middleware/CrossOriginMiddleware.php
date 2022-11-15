@@ -53,6 +53,7 @@ class CrossOriginMiddleware implements MiddlewareInterface
 
         //读取配置
         $enableCrossOrigin = $this->config->get('hyperf-base.cors.enable_cross_origin',false);
+        Log::debug('跨域',$enableCrossOrigin);
         if (!$enableCrossOrigin) {
             //不准跨域
             throw new HttpException(403, "not allowed cross origin switch off");
@@ -90,13 +91,12 @@ class CrossOriginMiddleware implements MiddlewareInterface
         $response = Context::get(ResponseInterface::class);
         $response = $response->withAddedHeader("Access-Control-Allow-Origin", $origin);
         $response = $response->withAddedHeader("Access-Control-Allow-Credentials", "true");
-        $response = $response->withAddedHeader('Access-Control-Allow-Headers', 'DNT,Keep-Alive,User-Agent,Cache-Control,Content-Type,hyperf-session-id');
+        $response = $response->withAddedHeader('Access-Control-Allow-Headers', '*');
         Context::set(ResponseInterface::class, $response);
-
         if ($request->getMethod() == 'OPTIONS') {
+            Log::debug('optioon 跨域完成');
             return $response;
         }
-
         return  $handler->handle($request);
     }
 

@@ -277,7 +277,7 @@ class AppCoreMiddleware extends CoreMiddleware
         Log::info("will convert WGW to auto path:{$newPath}");
         $request = $this->modifyRequestWithPath($request, $newPath);
         $request = $request->withAddedHeader(Constants::WGW, 'WGW');
-
+        Log::debug('新路径',$newPath);
         return parent::dispatch($request);
     }
 

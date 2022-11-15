@@ -8,35 +8,26 @@ declare(strict_types=1);
 namespace WJaneCode\HyperfBase\Response;
 
 use Hyperf\Context\Context;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpMessage\Cookie\Cookie;
 use Hyperf\HttpMessage\Stream\SwooleStream;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 use WJaneCode\HyperfBase\Constant\Constants;
 use WJaneCode\HyperfBase\Log\Log;
 
 class Response
 {
+    /**
+     * @Inject()
+     */
     public ResponseInterface $response;
 
-    public RequestInterface $request;
-
-    private ContainerInterface $container;
-
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @Inject()
      */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-        $this->response = $this->container->get(ResponseInterface::class);
-        $this->request = $this->container->get(RequestInterface::class);
-    }
+    public RequestInterface $request;
 
     /**
      * 是否WGW协议.

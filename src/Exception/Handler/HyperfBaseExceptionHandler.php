@@ -8,15 +8,15 @@ declare(strict_types=1);
 namespace WJaneCode\HyperfBase\Exception\Handler;
 
 use Hyperf\Contract\ContainerInterface;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\ExceptionHandler\ExceptionHandler;
 use Hyperf\HttpMessage\Exception\HttpException;
 use Hyperf\Server\Exception\ServerException;
 use Hyperf\Validation\UnauthorizedException;
 use Hyperf\Validation\ValidationException;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Qbhy\HyperfAuth\Exception\AuthException;
+use Throwable;
 use WJaneCode\HyperfBase\Constant\ErrorCode;
 use WJaneCode\HyperfBase\Exception\HyperfBaseException;
 use WJaneCode\HyperfBase\Log\Log;
@@ -24,19 +24,15 @@ use WJaneCode\HyperfBase\Response\Response;
 
 class HyperfBaseExceptionHandler extends ExceptionHandler
 {
-    private Response $response;
-
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @Inject()
      */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->response = $container->get(Response::class);
-    }
+    protected Response $response;
 
-    public function handle(\Throwable $throwable, ResponseInterface $response)
+    public function handle(Throwable $throwable, ResponseInterface $response)
     {
+        Log::debug('exception response',$response->getHeaders(),(array)$response);
+        Log::debug('response',(array)$this->response);
         $this->stopPropagation(); // 停止异常继续抛出
         Log::error('exception code: ' . $throwable->getCode());
         // 记录错误堆栈
@@ -96,7 +92,7 @@ class HyperfBaseExceptionHandler extends ExceptionHandler
         return $this->response->fail($code, $errorMsg);
     }
 
-    public function isValid(\Throwable $throwable): bool
+    public function isValid(Throwable $throwable): bool
     {
         return true;
     }
